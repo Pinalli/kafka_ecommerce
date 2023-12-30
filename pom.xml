@@ -32,12 +32,19 @@
   <artifactId>kafka-clients</artifactId>
   <version>3.6.1</version>
 </dependency>
-<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
-<dependency>
+
+ <!-- Dependência do SLF4J -->
+ <dependency>
   <groupId>org.slf4j</groupId>
-  <artifactId>slf4j-simple</artifactId>
-  <version>2.0.10</version>
-  <scope>test</scope>
+  <artifactId>slf4j-api</artifactId>
+  <version>2.0.1</version> <!-- Use a versão mais recente disponível -->
+</dependency>
+
+<!-- Dependência do Logback (implementação recomendada) -->
+<dependency>
+  <groupId>ch.qos.logback</groupId>
+  <artifactId>logback-classic</artifactId>
+  <version>1.4.14</version> <!-- Use a versão mais recente disponível -->
 </dependency>
 
   </dependencies>
