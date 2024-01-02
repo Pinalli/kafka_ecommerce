@@ -11,25 +11,25 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 
 public class LogService {
      public static void main(String[] args) {
-        var consumer = new KafkaConsumer<String, String>(properties());
+        try (var consumer = new KafkaConsumer<String, String>(properties())) {
+            consumer.subscribe(Pattern.compile("ECOMMERCE.*"));
 
-        consumer.subscribe(Pattern.compile("ECOMMERCE.*"));
+            while (true) {
+                var records = consumer.poll(Duration.ofMillis(1000));
 
-        while (true) {
-            var records = consumer.poll(Duration.ofMillis(1000));
+                if (!records.isEmpty()) {
+                    System.out.println("Find " + records.count() + " records");                
 
-            if (!records.isEmpty()) {
-                System.out.println("Find " + records.count() + " records");                
-
-            for (var record : records) {
-                System.out.println("----------------------------------------");
-                System.out.println("LOG: " + record.topic());
-                System.out.println("Key: " + record.key());
-                System.out.println("Value: " + record.value());
-                System.out.println("Partition: " + record.partition());
-                System.out.println("Offset: " + record.offset());
-        }
-          }
+                for (var record : records) {
+                    System.out.println("----------------------------------------");
+                    System.out.println("LOG: " + record.topic());
+                    System.out.println("Key: " + record.key());
+                    System.out.println("Value: " + record.value());
+                    System.out.println("Partition: " + record.partition());
+                    System.out.println("Offset: " + record.offset());
+            }
+              }
+            }
         }
     }
         private static Properties properties() {
