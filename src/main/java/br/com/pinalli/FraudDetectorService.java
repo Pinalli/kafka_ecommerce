@@ -18,36 +18,37 @@ public class FraudDetectorService {
                 var records = consumer.poll(Duration.ofMillis(100));
 
                 if (!records.isEmpty()) {
-                    System.out.println("Find " + records.count() + " records");                
+                    System.out.println("Encontrei " + records.count() + " records");
 
-                for (var record : records) {
-                    System.out.println("----------------------------------------");
-                    System.out.println("Processing new order, verificando fraude");
-                    System.out.println("Key: " + record.key());
-                    System.out.println("Value: " + record.value());
-                    System.out.println("Partition: " + record.partition());
-                    System.out.println("Offset: " + record.offset());
+                    for (var record : records) {
+                        System.out.println("----------------------------------------");
+                        System.out.println("Processing new order, verificando fraude");
+                        System.out.println("Key: " + record.key());
+                        System.out.println("Value: " + record.value());
+                        System.out.println("Partition: " + record.partition());
+                        System.out.println("Offset: " + record.offset());
 
-                    try {
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-                        // ignoring
-                        e.printStackTrace();
+                        try {
+                            Thread.sleep(5000);
+                        } catch (InterruptedException e) {
+                            // ignoring
+                            e.printStackTrace();
+                        }
+                        System.out.println("Order processed");
                     }
-                    System.out.println("Order processed");
                 }
-              }
             }
         }
     }
-        private static Properties properties() {
-            
-            var properties = new Properties();
 
-            properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-            properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-            properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-            properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, FraudDetectorService.class.getSimpleName());
-            return properties;           
-        }
+    private static Properties properties() {
+
+        var properties = new Properties();
+
+        properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+        properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+        properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, FraudDetectorService.class.getSimpleName());
+        return properties;
+    }
 }
